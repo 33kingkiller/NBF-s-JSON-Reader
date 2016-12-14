@@ -1,14 +1,23 @@
 #ifndef JSONSTREAM_H
 #define JSONSTREAM_H
 
+#include <string>
+#include <iostream>
+#include <fstream>
 #include "jsonobject.h"
 
 class JsonStream {
 public:
-	void open(std::string path) const;
-	void input();
-	void close() const;
+	JsonStream();
+	void open(std::string path);
+	void input(JsonObject objects[]);
+	void close();
 private:
-	JsonObject object[999];
+	std::ifstream inputStream;
+	std::string lines[9999];
+	std::string currentName;
+	std::string currentValueS;
+	int currentValueI;
+	int lineNum;
 };
 #endif //JSONSTREAM_H
