@@ -10,7 +10,7 @@ void JsonStream::open(std::string path) {
 	inputStream.open(path);
 }
 
-void JsonStream::input(JsonObject objects[]) {
+void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 	logger.open("logs/JSON_Store.txt");
 	do {
 		logger << "Storing line # " << lineNum << "...\n";
@@ -23,14 +23,18 @@ void JsonStream::input(JsonObject objects[]) {
 	} while (inputStream);
 	logger.close();
 
+	bool isArray = false;
+	bool isObject = false;
+
 	for (int i = 1; i < totalLines; i++) {
+		logger.open("logs/JSON_Parse.txt");
+		parseStream.str(lines[i]);
+
 		if (NameCheck(lines[i])) {
-			parseStream.str(lines[i]);
 			parseStream.get();
 			std::getline(parseStream, currentName, '\"');
 
-			logger.open("logs/JSON_Parse.txt");
-			logger << "Found item name: " << currentName;
+			logger << "Found item name: " << currentName << std::endl;
 
 			parseStream.get();
 			parseStream.get();
@@ -43,45 +47,34 @@ void JsonStream::input(JsonObject objects[]) {
 
 			} //if object
 			else if (parseStream.peek() == '[') {
-				parseStream.str(lines[i+1]);
-				if (parseStream.peek() == '\"') {
-
-				} //if string
-				else if (parseStream.peek() == '{') {
-
-				} //if object
-				else if (parseStream.peek() == '[') {
-					parseStream.str(lines[i + 1]);
-					if (parseStream.peek() == '\"') {
-
-					} //if string
-					else if (parseStream.peek() == '{') {
-
-					} //if object
-					else if (parseStream.peek() == '[') {
-						parseStream.str(lines[i + 1]);
-						if (parseStream.peek() == '\"') {
-
-						} //if string
-						else if (parseStream.peek() == '{') {
-
-						} //if object
-						else if (isdigit(parseStream.peek())) {
-
-						} //if digit
-					} //if array
-					else if (isdigit(parseStream.peek())) {
-
-					} // if digit
-				} //if array
-				else if (isdigit(parseStream.peek())) {
-
-				} //if digit
+				isArray = true;
 			} //if array
 			else if (isdigit(parseStream.peek())) {
 
 			} //if digit
+			else {
+				logger << "Failed to parse line " << i << ". It is in the incorrect format.\n";
+			}
 		} //if name
+		else {
+			if (parseStream.peek() == '}') {
+				isObject = false;
+			}
+			else if (parseStream.peek() == '{') {
+				isObject = true;
+			}
+			else if (parseStream.peek() == ']') {
+				isArray = false;
+			}
+			else if (parseStream.peek() == '[') {
+				isArray = true;
+			}
+			else {
+				logger << "Failed to parse line " << i << ". Either the line is in the incorrect format or it is blank.\n";
+			}
+		} //else
+
+		logger.close();
 	} //for
 } //void
 

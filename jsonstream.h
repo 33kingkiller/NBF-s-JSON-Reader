@@ -6,12 +6,13 @@
 #include <fstream>
 #include <sstream>
 #include "jsonobject.h"
+#include "jsonarray.h"
 
 class JsonStream {
 public:
 	JsonStream();
 	void open(std::string path);
-	void input(JsonObject objects[]);
+	void input(JsonObject objects[], JsonArray arrays[]);
 	void close();
 private:
 	bool NameCheck(std::string input);
