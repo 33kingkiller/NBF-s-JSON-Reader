@@ -18,12 +18,72 @@ void JsonStream::input(JsonObject objects[]) {
 			inputStream.ignore(1);
 		}
 		std::getline(inputStream, lines[lineNum - 1]);
+		totalLines = lineNum;
 		lineNum++;
 	} while (inputStream);
 	logger.close();
 
-	PrintLine4();
-}
+	for (int i = 1; i < totalLines; i++) {
+		if (NameCheck(lines[i])) {
+			parseStream.str(lines[i]);
+			parseStream.get();
+			std::getline(parseStream, currentName, '\"');
+
+			logger.open("logs/JSON_Parse.txt");
+			logger << "Found item name: " << currentName;
+
+			parseStream.get();
+			parseStream.get();
+			parseStream.get();
+
+			if (parseStream.peek() == '\"') {
+
+			} //if string
+			else if (parseStream.peek() == '{') {
+
+			} //if object
+			else if (parseStream.peek() == '[') {
+				parseStream.str(lines[i+1]);
+				if (parseStream.peek() == '\"') {
+
+				} //if string
+				else if (parseStream.peek() == '{') {
+
+				} //if object
+				else if (parseStream.peek() == '[') {
+					parseStream.str(lines[i + 1]);
+					if (parseStream.peek() == '\"') {
+
+					} //if string
+					else if (parseStream.peek() == '{') {
+
+					} //if object
+					else if (parseStream.peek() == '[') {
+						parseStream.str(lines[i + 1]);
+						if (parseStream.peek() == '\"') {
+
+						} //if string
+						else if (parseStream.peek() == '{') {
+
+						} //if object
+						else if (isdigit(parseStream.peek())) {
+
+						} //if digit
+					} //if array
+					else if (isdigit(parseStream.peek())) {
+
+					} // if digit
+				} //if array
+				else if (isdigit(parseStream.peek())) {
+
+				} //if digit
+			} //if array
+			else if (isdigit(parseStream.peek())) {
+
+			} //if digit
+		} //if name
+	} //for
+} //void
 
 void JsonStream::close() {
 	inputStream.close();
@@ -31,8 +91,13 @@ void JsonStream::close() {
 
 //Private
 
-void JsonStream::NameCheck(std::string input, bool* check, std::string* returnName) {
-
+bool JsonStream::NameCheck(std::string input) {
+	parseStream.str(input);
+	if (parseStream.peek() == '\"') {
+		return true;
+	}else {
+		return false;
+	}
 }
 
 void JsonStream::PrintLine4() {

@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "jsonobject.h"
 
 class JsonStream {
@@ -13,14 +14,17 @@ public:
 	void input(JsonObject objects[]);
 	void close();
 private:
-	void NameCheck(std::string input, bool* check, std::string* returnName);
+	bool NameCheck(std::string input);
 	void PrintLine4();
 	std::ifstream inputStream;
 	std::ofstream logger;
+	std::stringstream parseStream;
 	std::string lines[9999];
 	std::string currentName;
 	std::string currentValueS;
+	std::string currentName;
 	int currentValueI;
 	int lineNum;
+	int totalLines;
 };
 #endif //JSONSTREAM_H
