@@ -12,7 +12,6 @@ JsonStream::JsonStream() {
 	currentArrayObjectMemberId = 0;
 	currentArrayValueId = 0;
 	isValidFile = true;
-	isEmbeddedArray = false;
 }
 
 JsonStream::JsonStream(int startingId, bool isDifferentObject) {
@@ -32,7 +31,6 @@ JsonStream::JsonStream(int startingId, bool isDifferentObject) {
 	currentArrayObjectMemberId = 0;
 	currentArrayValueId = 0;
 	isValidFile = true;
-	isEmbeddedArray = false;
 }
 
 JsonStream::JsonStream(int startingObjectId, int startingArrayId) {
@@ -45,7 +43,6 @@ JsonStream::JsonStream(int startingObjectId, int startingArrayId) {
 	currentArrayObjectMemberId = 0;
 	currentArrayValueId = 0;
 	isValidFile = true;
-	isEmbeddedArray = false;
 }
 
 void JsonStream::open(std::string path) {
@@ -73,6 +70,7 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 	logger.close();
 
 	bool isArray = false;
+	bool isEmbeddedArray = false;
 	bool isObject = false;
 
 	JsonObject tempObject;

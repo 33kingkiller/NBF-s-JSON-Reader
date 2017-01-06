@@ -42,6 +42,5 @@ private:
 	int lineNum;
 	int totalLines;
 	bool isValidFile;
-	bool isEmbeddedArray;
 };
 #endif //JSONSTREAM_H
