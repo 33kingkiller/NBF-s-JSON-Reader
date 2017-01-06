@@ -1,10 +1,9 @@
 #include "jsonarray.h"
 
-void JsonArray::getJsonMembers(JsonMember jMembers[]) {
+void JsonArray::getJsonValues(int valsI[], std::string valsS[]) {
 	for (int i = 0; i < 50; i++) {
-		jMembers[i].setName(members[i].getName());
-		jMembers[i].setIntValue(members[i].getIntValue());
-		jMembers[i].setStringValue(members[i].getStringValue());
+		valsI[i] = valuesI[i];
+		valsS[i] = valuesS[i];
 	}
 }
 
@@ -18,5 +17,31 @@ void JsonArray::getJsonObjects(JsonObject jObjects[]) {
 
 		objects[i].getStringMembers(tempSMembers);
 		jObjects[i].setStringMembers(tempSMembers);
+	}
+}
+
+void JsonArray::getJsonObject(int id, JsonObject& jObject) {
+	jObject = objects[id];
+}
+
+void JsonArray::setJsonValue(int id, std::string value) {
+	valuesS[id] = value;
+}
+
+void JsonArray::setJsonValue(int id, int value) {
+	valuesI[id] = value;
+}
+
+void JsonArray::setJsonObject(int id, JsonObject jObject) {
+	objects[id].setIntMembers(jObject.getIntMembers);
+	objects[id].setStringMembers(jObject.getStringMembers);
+}
+
+void JsonArray::setJsonObject(int id, JsonMember jMembers[], bool isString) {
+	if (isString) {
+		objects[id].setStringMembers(jMembers);
+	}
+	else {
+		objects[id].setIntMembers(jMembers);
 	}
 }

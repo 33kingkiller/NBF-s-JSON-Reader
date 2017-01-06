@@ -9,6 +9,8 @@ public:
 	void getStringMembers(JsonMember stringMembers[]) const;
 	void setIntMembers(JsonMember intMembers[]);
 	void setStringMembers(JsonMember stringMembers[]);
+	void setIntMember(int id, std::string name, int value);
+	void setStringMember(int id, std::string name, std::string value);
 private:
 	JsonMember intMembers[50];
 	JsonMember stringMembers[50];

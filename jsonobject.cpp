@@ -27,3 +27,13 @@ void JsonObject::setStringMembers(JsonMember strings[]) {
 		stringMembers[i].setStringValue(strings[i].getStringValue());
 	}
 }
+
+void JsonObject::setStringMember(int id, std::string name, std::string value) {
+	stringMembers[id].setName(name);
+	stringMembers[id].setStringValue(value);
+}
+
+void JsonObject::setIntMember(int id, std::string name, int value) {
+	intMembers[id].setName(name);
+	intMembers[id].setIntValue(value);
+}
