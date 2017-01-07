@@ -1,0 +1,37 @@
+{
+	"maps": [
+		{
+			"name": "Overworld"
+			"id": 0
+			"texturePathDay": "textures/default_sheet.png"
+			"texturePathSunSetRise": "textures/default_sheet_sunsetrise.png"
+			"texturePathNight": "textures/default_sheet_night.png"
+			"databasePath": "maps/overworld.dat"
+			"databasePathCollision": "maps/overworld_collision.dat"
+			"entrance1CoordX": 0
+			"entrance1CoordY": 0
+		},
+		{
+			"name": "Project Urotas Facility"
+			"id": 1
+			"texturePathDay": "textures/default_sheet.png"
+			"texturePathSunSetRise": "textures/default_sheet_sunsetrise.png"
+			"texturePathNight": "textures/default_sheet_night.png"
+			"databasePath": "maps/projurotasfac.dat"
+			"databasePathCollision": "maps/projurotasfac_collision.dat"
+			"entrance1CoordX": 0
+			"entrance1CoordY": 0
+		},
+		{
+			"name": "Fohalo City"
+			"id": 2
+			"texturePathDay": "textures/default_sheet.png"
+			"texturePathSunSetRise": "textures/default_sheet_sunsetrise.png"
+			"texturePathNight": "textures/default_sheet_night.png"
+			"databasePath": "maps/fohalocity.dat"
+			"databasePathCollision": "maps/fohalocity_collision.dat"
+			"entrance1CoordX": 0
+			"entrance1CoordY": 0
+		}
+	]
+}
