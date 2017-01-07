@@ -6,10 +6,12 @@ JsonStream::JsonStream() {
 	lineNum = 1;
 	totalLines = 1;
 	currentObjectId = 0;
-	currentObjectMemberId = 0;
+	currentObjectMemberIntId = 0;
+	currentObjectMemberStringId = 0;
 	currentArrayId = 0;
 	currentArrayObjectId = 0;
-	currentArrayObjectMemberId = 0;
+	currentArrayObjectMemberIntId = 0;
+	currentArrayObjectMemberStringId = 0;
 	currentArrayValueId = 0;
 	isValidFile = true;
 }
@@ -19,16 +21,19 @@ JsonStream::JsonStream(int startingId, bool isDifferentObject) {
 	totalLines = 1;
 	if (isDifferentObject) {
 		currentObjectId = startingId;
-		currentObjectMemberId = 0;
+		currentObjectMemberIntId = 0;
+		currentObjectMemberStringId = 0;
 		currentArrayId = 0;
 	}
 	else {
 		currentObjectId = 0;
-		currentObjectMemberId = 0;
+		currentObjectMemberIntId = 0;
+		currentObjectMemberStringId = 0;
 		currentArrayId = startingId;
 	}
 	currentArrayObjectId = 0;
-	currentArrayObjectMemberId = 0;
+	currentArrayObjectMemberIntId = 0;
+	currentArrayObjectMemberStringId = 0;
 	currentArrayValueId = 0;
 	isValidFile = true;
 }
@@ -37,10 +42,12 @@ JsonStream::JsonStream(int startingObjectId, int startingArrayId) {
 	lineNum = 1;
 	totalLines = 1;
 	currentObjectId = startingObjectId;
-	currentObjectMemberId = 0;
+	currentObjectMemberIntId = 0;
+	currentObjectMemberStringId = 0;
 	currentArrayId = startingArrayId;
 	currentArrayObjectId = 0;
-	currentArrayObjectMemberId = 0;
+	currentArrayObjectMemberIntId = 0;
+	currentArrayObjectMemberStringId = 0;
 	currentArrayValueId = 0;
 	isValidFile = true;
 }
@@ -81,41 +88,53 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 	logger.open("logs/JSON_Parse.txt");
 	if (isValidFile) {
 		for (int i = 1; i < totalLines; i++) {
+			if (i == 6) {
+				JsonMember tempIMembers[50];
+				arrays[0].getJsonObject(0).getIntMembers(tempIMembers);
+				logger << tempIMembers[0].getName() << std::endl;
+				logger << tempIMembers[0].getIntValue() << std::endl;
+			}
+			if (i == 9) {
+				JsonMember tempIMembers[50];
+				arrays[0].getJsonObject(1).getStringMembers(tempIMembers);
+				logger << tempIMembers[0].getName() << std::endl;
+				logger << tempIMembers[0].getStringValue() << std::endl;
+			}
 			parseStream.str(lines[i]);
+			logger << lines[i] << std::endl;
+			logger << parseStream.str() << std::endl;
 
 			if (NameCheck(lines[i])) {
-				parseStream.get();
+				parseStream.ignore(1);
 				std::getline(parseStream, currentName, '\"');
 
 				logger << "Found item name: " << currentName << ".\n";
 				std::cout << "Found item name: " << currentName << ".\n";
 
-				parseStream.get();
-				parseStream.get();
-				parseStream.get();
+				parseStream.ignore(2);
 
 				logger << "Attempting to parse item with name \"" << currentName << ".\" This is on line " << i+1 << ".\n";
 				std::cout << "Attempting to parse item with name \"" << currentName << ".\" This is on line " << i+1 << ".\n";
 
 				if (parseStream.peek() == '\"') {
 					if (isArray && isObject) {
-						parseStream.get();
+						parseStream.ignore(1);
 						std::getline(parseStream, currentValueS, '\"');
 
-						tempObject.setStringMember(currentArrayObjectMemberId, currentName, currentValueS);
+						tempObject.setStringMember(currentArrayObjectMemberStringId, currentName, currentValueS);
 						arrays[currentArrayId].setJsonObject(currentArrayObjectId, tempObject);
-						currentArrayObjectMemberId++;
+						currentArrayObjectMemberStringId++;
 					}
 					else if (isArray && !isObject) {
 						logger << "Failed to parse line " << i << ". Arrays can not have members, only values.\n";
 						std::cout << "Failed to parse line " << i << ". Arrays can not have members, only values.\n";
 					}
 					else if (isObject && !isArray) {
-						parseStream.get();
+						parseStream.ignore(1);
 						std::getline(parseStream, currentValueS, '\"');
 
-						objects[currentObjectId].setStringMember(currentObjectMemberId, currentName, currentValueS);
-						currentObjectMemberId++;
+						objects[currentObjectId].setStringMember(currentObjectMemberStringId, currentName, currentValueS);
+						currentObjectMemberStringId++;
 					}
 					else {
 						logger << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
@@ -131,7 +150,8 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 						tempArrayId = currentArrayId;
 						tempArrayValueId = currentArrayValueId;
 						tempArrayObjectId = currentArrayObjectId;
-						tempArrayObjectMemberId = currentArrayObjectMemberId;
+						tempArrayObjectMemberIntId = currentArrayObjectMemberIntId;
+						tempArrayObjectMemberStringId = currentArrayObjectMemberStringId;
 					}
 					else {
 						isArray = true;
@@ -139,15 +159,22 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 				} //if array
 				else if (isdigit(parseStream.peek())) {
 					if (isArray && isObject) {
+						std::stringstream intStream;
+						intStream.str(lines[i]);
+
+						while (!isdigit(intStream.peek())) {
+							intStream.ignore(1);
+						}
+
 						do {
-							currentInt += parseStream.get();
-						} while (isdigit(parseStream.peek()));
+							currentIntS += intStream.get();
+						} while (isdigit(intStream.peek()));
 
-						currentValueI = atoi(currentInt.c_str());
+						currentValueI = atoi(currentIntS.c_str());
 
-						tempObject.setIntMember(currentArrayObjectMemberId, currentName, currentValueI);
+						tempObject.setIntMember(currentArrayObjectMemberIntId, currentName, currentValueI);
 						arrays[currentArrayId].setJsonObject(currentArrayObjectId, tempObject);
-						currentArrayObjectMemberId++;
+						currentArrayObjectMemberIntId++;
 					}
 					else if (isArray && !isObject) {
 						logger << "Failed to parse line " << i+1 << ". Arrays can not have members, only values.\n";
@@ -155,13 +182,13 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 					}
 					else if (isObject && !isArray) {
 						do {
-							currentInt += parseStream.get();
+							currentIntS += parseStream.get();
 						} while (isdigit(parseStream.peek()));
 
-						currentValueI = atoi(currentInt.c_str());
+						currentValueI = atoi(currentIntS.c_str());
 
-						objects[currentObjectId].setIntMember(currentArrayObjectMemberId, currentName, currentValueI);
-						currentArrayObjectMemberId++;
+						objects[currentObjectId].setIntMember(currentObjectMemberIntId, currentName, currentValueI);
+						currentObjectMemberIntId++;
 					}
 					else {
 						logger << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
@@ -181,11 +208,11 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 			} //if name
 			else if (IntCheck(lines[i])) {
 				do {
-					currentInt += parseStream.get();
+					currentIntS += parseStream.get();
 				} while (isdigit(parseStream.peek()));
 
 				if (isArray) {
-					arrays[currentArrayId].setJsonValue(currentArrayValueId, atoi(currentInt.c_str()));
+					arrays[currentArrayId].setJsonValue(currentArrayValueId, atoi(currentIntS.c_str()));
 					currentArrayValueId++;
 				}
 				else {
@@ -195,14 +222,18 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 			}
 			else {
 				if (parseStream.peek() == '}') {
+					logger << "end of object found on line " << i+1 << ".\n";
+
 					isObject = false;
 					if (isArray) {
 						currentArrayObjectId++;
-						currentArrayObjectMemberId = 0;
+						currentArrayObjectMemberIntId = 0;
+						currentArrayObjectMemberStringId = 0;
 					}
 					else {
 						currentObjectId++;
-						currentObjectMemberId = 0;
+						currentObjectMemberIntId = 0;
+						currentObjectMemberStringId = 0;
 					}
 				}
 				else if (parseStream.peek() == '{') {
@@ -213,7 +244,8 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 						isArray = false;
 						currentArrayId++;
 						currentArrayObjectId = 0;
-						currentArrayObjectMemberId = 0;
+						currentArrayObjectMemberIntId = 0;
+						currentArrayObjectMemberStringId = 0;
 						currentArrayValueId = 0;
 					}
 					else {
@@ -221,7 +253,8 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 						currentArrayId = tempArrayId;
 						currentArrayValueId = tempArrayValueId;
 						currentArrayObjectId = tempArrayObjectId;
-						currentArrayObjectMemberId = tempArrayObjectMemberId;
+						currentArrayObjectMemberIntId = tempArrayObjectMemberIntId;
+						currentArrayObjectMemberStringId = tempArrayObjectMemberStringId;
 					}
 				}
 				else if (parseStream.peek() == '[') {
@@ -231,6 +264,12 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 					isArray = true;
 				}
 				else {
+					char tempChar;
+					parseStream.ignore(1);
+					tempChar = parseStream.peek();
+
+					logger << tempChar << std::endl;
+
 					logger << "Failed to parse line " << i+1 << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
 					std::cout << "Failed to parse line " << i+1 << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
 				}

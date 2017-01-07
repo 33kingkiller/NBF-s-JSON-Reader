@@ -20,8 +20,8 @@ void JsonArray::getJsonObjects(JsonObject jObjects[]) {
 	}
 }
 
-void JsonArray::getJsonObject(int id, JsonObject& jObject) {
-	jObject = objects[id];
+JsonObject JsonArray::getJsonObject(int id) {
+	return objects[id];
 }
 
 void JsonArray::setJsonValue(int id, std::string value) {

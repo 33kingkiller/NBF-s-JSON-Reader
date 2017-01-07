@@ -8,7 +8,7 @@ class JsonArray {
 public:
 	void getJsonValues(int valuesI[], std::string valuesS[]);
 	void getJsonObjects(JsonObject jObjects[]);
-	void getJsonObject(int id, JsonObject& jObject);
+	JsonObject getJsonObject(int id);
 	void setJsonValue(int id, std::string value);
 	void setJsonValue(int id, int value);
 	void setJsonObject(int id, JsonObject jObject);
