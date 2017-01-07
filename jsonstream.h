@@ -51,6 +51,7 @@ public:
 private:
 	bool NameCheck(std::string input);
 	bool IntCheck(std::string input);
+	bool BoolCheck(std::string input);
 	//void PrintLine4();
 	std::ifstream inputStream;
 	std::ofstream logger;
@@ -64,15 +65,18 @@ private:
 	int currentObjectId;
 	int currentObjectMemberIntId;
 	int currentObjectMemberStringId;
+	int currentObjectMemberBoolId;
 	int currentArrayId;
 	int currentArrayObjectId;
 	int currentArrayObjectMemberIntId;
 	int currentArrayObjectMemberStringId;
+	int currentArrayObjectMemberBoolId;
 	int currentArrayValueId;
 	int tempArrayId;
 	int tempArrayObjectId;
 	int tempArrayObjectMemberIntId;
 	int tempArrayObjectMemberStringId;
+	int tempArrayObjectMemberBoolId;
 	int tempArrayValueId;
 	int lineNum;
 	int totalLines;

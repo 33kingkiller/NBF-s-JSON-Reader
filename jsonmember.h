@@ -24,6 +24,12 @@ public:
 	int getIntValue() const;
 
 	//Pre-Condition:
+	//"valueB" is defined.
+	//Post-Condition:
+	//"valueB" is returned.
+	bool getBoolValue() const;
+
+	//Pre-Condition:
 	//N/A.
 	//Post-Condition:
 	//"name" is defined.
@@ -40,9 +46,16 @@ public:
 	//Post-Condition:
 	//"valueI" is defined.
 	void setIntValue(int valueI);
+
+	//Pre-Condition:
+	//N/A.
+	//Post-Condition:
+	//"valueB" is defined.
+	void setBoolValue(bool valueI);
 private:
 	std::string name;
 	std::string valueS;
 	int valueI;
+	bool valueB;
 };
 #endif //JSONMEMBER_H
