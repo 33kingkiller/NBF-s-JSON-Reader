@@ -1,5 +1,5 @@
 #ifndef JSONOBJECT_H
-#define JSONOCJECT_H
+#define JSONOBJECT_H
 
 #include "jsonmember.h"
 

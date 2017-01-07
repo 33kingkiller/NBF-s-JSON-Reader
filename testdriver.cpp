@@ -1,8 +1,8 @@
 #include <iostream>
 #include "jsonstream.h"
 
-JsonObject objects[999];
-JsonArray arrays[999];
+JsonObject objects[50];
+JsonArray arrays[50];
 JsonStream jsonStream;
 
 int main() {

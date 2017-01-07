@@ -54,6 +54,7 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 	logger.open("logs/JSON_Store.txt");
 	do {
 		logger << "Storing line # " << lineNum << "...\n";
+		std::cout << "Storing line # " << lineNum << "...\n";
 		while (isspace(inputStream.peek())) {
 			inputStream.ignore(1);
 		}
@@ -61,10 +62,12 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 		totalLines = lineNum;
 		lineNum++;
 	} while (inputStream);
-	
+	inputStream.close();
+
 	parseStream.str(lines[0]);
-	if (!parseStream.peek() == '{') {
+	if (parseStream.peek() != '{') {
 		logger << "Failed to store \"" << jPath << ".\" This is likely do the file not existing or the file being in the incorrect format (i.e. missing '{' in first line).\n";
+		std::cout << "Failed to store \"" << jPath << ".\" This is likely do the file not existing or the file being in the incorrect format (i.e. missing '{' in first line).\n";
 		isValidFile = false;
 	}
 	logger.close();
@@ -85,12 +88,14 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 				std::getline(parseStream, currentName, '\"');
 
 				logger << "Found item name: " << currentName << ".\n";
+				std::cout << "Found item name: " << currentName << ".\n";
 
 				parseStream.get();
 				parseStream.get();
 				parseStream.get();
 
-				logger << "Attempting to parse item with name \"" << currentName << ".\" This is on line " << i << ".\n";
+				logger << "Attempting to parse item with name \"" << currentName << ".\" This is on line " << i+1 << ".\n";
+				std::cout << "Attempting to parse item with name \"" << currentName << ".\" This is on line " << i+1 << ".\n";
 
 				if (parseStream.peek() == '\"') {
 					if (isArray && isObject) {
@@ -103,13 +108,18 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 					}
 					else if (isArray && !isObject) {
 						logger << "Failed to parse line " << i << ". Arrays can not have members, only values.\n";
+						std::cout << "Failed to parse line " << i << ". Arrays can not have members, only values.\n";
 					}
 					else if (isObject && !isArray) {
-						tempObject.setStringMember(currentObjectMemberId, currentName, currentValueS);
+						parseStream.get();
+						std::getline(parseStream, currentValueS, '\"');
+
+						objects[currentObjectId].setStringMember(currentObjectMemberId, currentName, currentValueS);
 						currentObjectMemberId++;
 					}
 					else {
-						logger << "Failed to parse line " << i << ". It is in the incorrect format.\n";
+						logger << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
+						std::cout << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
 					}
 				} //if string
 				else if (parseStream.peek() == '{') {
@@ -129,16 +139,33 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 				} //if array
 				else if (isdigit(parseStream.peek())) {
 					if (isArray && isObject) {
+						do {
+							currentInt += parseStream.get();
+						} while (isdigit(parseStream.peek()));
 
+						currentValueI = atoi(currentInt.c_str());
+
+						tempObject.setIntMember(currentArrayObjectMemberId, currentName, currentValueI);
+						arrays[currentArrayId].setJsonObject(currentArrayObjectId, tempObject);
+						currentArrayObjectMemberId++;
 					}
 					else if (isArray && !isObject) {
-
+						logger << "Failed to parse line " << i+1 << ". Arrays can not have members, only values.\n";
+						std::cout << "Failed to parse line " << i+1 << ". Arrays can not have members, only values.\n";
 					}
 					else if (isObject && !isArray) {
+						do {
+							currentInt += parseStream.get();
+						} while (isdigit(parseStream.peek()));
 
+						currentValueI = atoi(currentInt.c_str());
+
+						objects[currentObjectId].setIntMember(currentArrayObjectMemberId, currentName, currentValueI);
+						currentArrayObjectMemberId++;
 					}
 					else {
-						logger << "Failed to parse line " << i << ". It is in the incorrect format.\n";
+						logger << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
+						std::cout << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
 					}
 				} //if digit
 				else {
@@ -147,7 +174,8 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 						currentArrayValueId++;
 					}
 					else {
-						logger << "Failed to parse line " << i << ". It is in the incorrect format.\n";
+						logger << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
+						std::cout << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
 					}
 				}
 			} //if name
@@ -161,7 +189,8 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 					currentArrayValueId++;
 				}
 				else {
-					logger << "Failed to parse line " << i << ". It is in the incorrect format.\n";
+					logger << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
+					std::cout << "Failed to parse line " << i+1 << ". It is in the incorrect format.\n";
 				}
 			}
 			else {
@@ -202,13 +231,15 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 					isArray = true;
 				}
 				else {
-					logger << "Failed to parse line " << i << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
+					logger << "Failed to parse line " << i+1 << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
+					std::cout << "Failed to parse line " << i+1 << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
 				}
 			} //else
 		} //for
 	} //if isValidFile
 	else {
 		logger << "Failed to parse \"" << jPath << ".\" This is likely do the file not existing or the file being in the incorrect format (i.e. missing '{' in first line).\n";
+		std::cout << "Failed to parse \"" << jPath << ".\" This is likely do the file not existing or the file being in the incorrect format (i.e. missing '{' in first line).\n";
 	} //else
 
 	logger.close();

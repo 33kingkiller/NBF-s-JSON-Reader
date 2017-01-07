@@ -33,8 +33,14 @@ void JsonArray::setJsonValue(int id, int value) {
 }
 
 void JsonArray::setJsonObject(int id, JsonObject jObject) {
-	objects[id].setIntMembers(jObject.getIntMembers);
-	objects[id].setStringMembers(jObject.getStringMembers);
+	JsonMember tempMembersI[50];
+	JsonMember tempMembersS[50];
+	
+	jObject.getIntMembers(tempMembersI);
+	jObject.getStringMembers(tempMembersS);
+
+	objects[id].setIntMembers(tempMembersI);
+	objects[id].setStringMembers(tempMembersS);
 }
 
 void JsonArray::setJsonObject(int id, JsonMember jMembers[], bool isString) {
