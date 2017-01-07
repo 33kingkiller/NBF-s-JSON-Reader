@@ -88,21 +88,7 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 	logger.open("logs/JSON_Parse.txt");
 	if (isValidFile) {
 		for (int i = 1; i < totalLines; i++) {
-			if (i == 6) {
-				JsonMember tempIMembers[50];
-				arrays[0].getJsonObject(0).getIntMembers(tempIMembers);
-				logger << tempIMembers[0].getName() << std::endl;
-				logger << tempIMembers[0].getIntValue() << std::endl;
-			}
-			if (i == 9) {
-				JsonMember tempIMembers[50];
-				arrays[0].getJsonObject(1).getStringMembers(tempIMembers);
-				logger << tempIMembers[0].getName() << std::endl;
-				logger << tempIMembers[0].getStringValue() << std::endl;
-			}
 			parseStream.str(lines[i]);
-			logger << lines[i] << std::endl;
-			logger << parseStream.str() << std::endl;
 
 			if (NameCheck(lines[i])) {
 				parseStream.ignore(1);
@@ -181,9 +167,16 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 						std::cout << "Failed to parse line " << i+1 << ". Arrays can not have members, only values.\n";
 					}
 					else if (isObject && !isArray) {
+						std::stringstream intStream;
+						intStream.str(lines[i]);
+
+						while (!isdigit(intStream.peek())) {
+							intStream.ignore(1);
+						}
+
 						do {
-							currentIntS += parseStream.get();
-						} while (isdigit(parseStream.peek()));
+							currentIntS += intStream.get();
+						} while (isdigit(intStream.peek()));
 
 						currentValueI = atoi(currentIntS.c_str());
 
@@ -207,9 +200,16 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 				}
 			} //if name
 			else if (IntCheck(lines[i])) {
+				std::stringstream intStream;
+				intStream.str(lines[i]);
+
+				while (!isdigit(intStream.peek())) {
+					intStream.ignore(1);
+				}
+
 				do {
-					currentIntS += parseStream.get();
-				} while (isdigit(parseStream.peek()));
+					currentIntS += intStream.get();
+				} while (isdigit(intStream.peek()));
 
 				if (isArray) {
 					arrays[currentArrayId].setJsonValue(currentArrayValueId, atoi(currentIntS.c_str()));
@@ -222,8 +222,6 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 			}
 			else {
 				if (parseStream.peek() == '}') {
-					logger << "end of object found on line " << i+1 << ".\n";
-
 					isObject = false;
 					if (isArray) {
 						currentArrayObjectId++;
@@ -264,12 +262,6 @@ void JsonStream::input(JsonObject objects[], JsonArray arrays[]) {
 					isArray = true;
 				}
 				else {
-					char tempChar;
-					parseStream.ignore(1);
-					tempChar = parseStream.peek();
-
-					logger << tempChar << std::endl;
-
 					logger << "Failed to parse line " << i+1 << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
 					std::cout << "Failed to parse line " << i+1 << ". Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.\n";
 				}
