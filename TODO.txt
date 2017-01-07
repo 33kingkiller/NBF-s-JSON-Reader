@@ -3,3 +3,6 @@
 3. Implement parsing code DONE
 4. Run tests DONE
 5. If tests are failed, make bug fixes DONE
+6. Add bool parsing code DONE
+7. Add float parsing code
+8. Add parsing code for negative numbers
