@@ -1,0 +1,39 @@
+Found item name: maps.
+Attempting to parse item with name "maps." This is on line 2.
+Found item name: name.
+Attempting to parse item with name "name." This is on line 4.
+Found item name: id.
+Attempting to parse item with name "id." This is on line 5.
+Failed to parse line 6. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 7. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 8. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 9. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 10. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 11. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 12. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 13. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 14. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 15. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 16. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 17. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 18. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 19. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 20. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 21. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 22. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 23. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 24. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 25. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 26. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 27. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 28. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 29. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 30. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 31. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 32. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 33. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 34. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 35. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 36. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 37. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
+Failed to parse line 38. Either the line is in the incorrect format or it is blank. If this is the final line in the .json and no other errors have occured, ignore this message.
