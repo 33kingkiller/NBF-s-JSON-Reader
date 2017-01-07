@@ -1,13 +1,13 @@
 #include "jsonarray.h"
 
-void JsonArray::getJsonValues(int valsI[], std::string valsS[]) {
+void JsonArray::getJsonValues(int valsI[], std::string valsS[]) const {
 	for (int i = 0; i < 50; i++) {
 		valsI[i] = valuesI[i];
 		valsS[i] = valuesS[i];
 	}
 }
 
-void JsonArray::getJsonObjects(JsonObject jObjects[]) {
+void JsonArray::getJsonObjects(JsonObject jObjects[]) const {
 	JsonMember tempIMembers[50];
 	JsonMember tempSMembers[50];
 
@@ -20,7 +20,7 @@ void JsonArray::getJsonObjects(JsonObject jObjects[]) {
 	}
 }
 
-JsonObject JsonArray::getJsonObject(int id) {
+JsonObject JsonArray::getJsonObject(int id) const {
 	return objects[id];
 }
 
