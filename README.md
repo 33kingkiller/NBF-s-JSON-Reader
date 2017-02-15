@@ -31,7 +31,7 @@ For a string member - “name”: “x”
 For an object name - “name”: {
 For an array name - “name”: [
 
-Fourth, if you use a {, [, }, or ], this must either be on its own line or after a name formatted as mentioned above. Fifth, this library does not allow for arrays within objects. It does, however, allow for objects within arrays.
+Fourth, if you use a {, [, }, or ], this must either be on its own line or after a name formatted as mentioned above. Fifth, this library does not allow for arrays within objects. It does, however, allow for objects within arrays. Sixth, an array with a parent array may not have a child array. After this array is closed (']'), however, the parent array may have another designated child array.
 
 By including <NBF/jsonstream.h>, you will be including everything else necessary to utilize the library (<NBF/jsonobject.h>, <NBF/jsonarray.h>, and <NBF/jsonmember.h>). Go ahead and make a JsonObject[] and a JsonArray[]. These will be necessary for JsonStream’s “input” function. It is recommended that you limit the size of your JsonObject[] and JsonArray[] to just what you need. If your arrays (C++) are too big, you'll get a massive lag spike and overwhelming amounts of RAM usage. As a side note, it is very much possible to avoid this and obtain a small lag spike and barely any RAM usage. After you’ve made these, make a JsonStream object (C++) as well, then proceed to call “[INSERT YOUR JsonStream NAME HERE].open()” with the path to your .json as a parameter, “[INSERT YOUR JsonStream NAME HERE].input()” with your JsonObject[] and JsonArray[] as parameters, and “[INSERT YOUR JsonStream NAME HERE].close()”. After this code has ran, your JsonObject[] and JsonArray[] will contain the data stored in the .json you provided.
 
